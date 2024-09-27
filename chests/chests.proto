@@ -1,0 +1,17 @@
+option go_package = "github.com/meb-ru/pb/chests";
+
+// The greeting service definition.
+service Chests {
+  // Sends a greeting
+  rpc Chests (ChestsRequest) returns (ChestsReply) {}
+}
+
+// The request message containing the user's name.
+message ChestsRequest {
+  required string name = 1;
+}
+
+// The response message containing the greetings
+message ChestsReply {
+  required string message = 1;
+}
