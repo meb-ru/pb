@@ -20,17 +20,67 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type ChestType int32
+
+const (
+	ChestType_CHEST_TYPE_UNSPECIFIED ChestType = 0
+	ChestType_CHEST_TYPE_REGULAR     ChestType = 1
+	ChestType_CHEST_TYPE_PROMOTIONAL ChestType = 2
+)
+
+// Enum value maps for ChestType.
+var (
+	ChestType_name = map[int32]string{
+		0: "CHEST_TYPE_UNSPECIFIED",
+		1: "CHEST_TYPE_REGULAR",
+		2: "CHEST_TYPE_PROMOTIONAL",
+	}
+	ChestType_value = map[string]int32{
+		"CHEST_TYPE_UNSPECIFIED": 0,
+		"CHEST_TYPE_REGULAR":     1,
+		"CHEST_TYPE_PROMOTIONAL": 2,
+	}
+)
+
+func (x ChestType) Enum() *ChestType {
+	p := new(ChestType)
+	*p = x
+	return p
+}
+
+func (x ChestType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ChestType) Descriptor() protoreflect.EnumDescriptor {
+	return file_chests_chests_proto_enumTypes[0].Descriptor()
+}
+
+func (ChestType) Type() protoreflect.EnumType {
+	return &file_chests_chests_proto_enumTypes[0]
+}
+
+func (x ChestType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ChestType.Descriptor instead.
+func (ChestType) EnumDescriptor() ([]byte, []int) {
+	return file_chests_chests_proto_rawDescGZIP(), []int{0}
+}
+
 // The request message containing the user's name.
-type ChestsRequest struct {
+type GetChestsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name *string `protobuf:"bytes,1,req,name=name" json:"name,omitempty"`
+	User *TgUser  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	Id   *ChestId `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 }
 
-func (x *ChestsRequest) Reset() {
-	*x = ChestsRequest{}
+func (x *GetChestsRequest) Reset() {
+	*x = GetChestsRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_chests_chests_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -38,13 +88,13 @@ func (x *ChestsRequest) Reset() {
 	}
 }
 
-func (x *ChestsRequest) String() string {
+func (x *GetChestsRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ChestsRequest) ProtoMessage() {}
+func (*GetChestsRequest) ProtoMessage() {}
 
-func (x *ChestsRequest) ProtoReflect() protoreflect.Message {
+func (x *GetChestsRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_chests_chests_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -56,29 +106,35 @@ func (x *ChestsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ChestsRequest.ProtoReflect.Descriptor instead.
-func (*ChestsRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetChestsRequest.ProtoReflect.Descriptor instead.
+func (*GetChestsRequest) Descriptor() ([]byte, []int) {
 	return file_chests_chests_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *ChestsRequest) GetName() string {
-	if x != nil && x.Name != nil {
-		return *x.Name
+func (x *GetChestsRequest) GetUser() *TgUser {
+	if x != nil {
+		return x.User
 	}
-	return ""
+	return nil
 }
 
-// The response message containing the greetings
-type ChestsReply struct {
+func (x *GetChestsRequest) GetId() *ChestId {
+	if x != nil {
+		return x.Id
+	}
+	return nil
+}
+
+type TgUser struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Message *string `protobuf:"bytes,1,req,name=message" json:"message,omitempty"`
+	Id int64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 }
 
-func (x *ChestsReply) Reset() {
-	*x = ChestsReply{}
+func (x *TgUser) Reset() {
+	*x = TgUser{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_chests_chests_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -86,13 +142,13 @@ func (x *ChestsReply) Reset() {
 	}
 }
 
-func (x *ChestsReply) String() string {
+func (x *TgUser) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ChestsReply) ProtoMessage() {}
+func (*TgUser) ProtoMessage() {}
 
-func (x *ChestsReply) ProtoReflect() protoreflect.Message {
+func (x *TgUser) ProtoReflect() protoreflect.Message {
 	mi := &file_chests_chests_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -104,33 +160,570 @@ func (x *ChestsReply) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ChestsReply.ProtoReflect.Descriptor instead.
-func (*ChestsReply) Descriptor() ([]byte, []int) {
+// Deprecated: Use TgUser.ProtoReflect.Descriptor instead.
+func (*TgUser) Descriptor() ([]byte, []int) {
 	return file_chests_chests_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *ChestsReply) GetMessage() string {
-	if x != nil && x.Message != nil {
-		return *x.Message
+func (x *TgUser) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type ChestId struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id int64 `protobuf:"zigzag64,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *ChestId) Reset() {
+	*x = ChestId{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chests_chests_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ChestId) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChestId) ProtoMessage() {}
+
+func (x *ChestId) ProtoReflect() protoreflect.Message {
+	mi := &file_chests_chests_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChestId.ProtoReflect.Descriptor instead.
+func (*ChestId) Descriptor() ([]byte, []int) {
+	return file_chests_chests_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ChestId) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// The response message containing the greetings
+type GetChestsReply struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Chests  []*Chest `protobuf:"bytes,1,rep,name=chests,proto3" json:"chests,omitempty"`
+	Current *Chest   `protobuf:"bytes,2,opt,name=current,proto3" json:"current,omitempty"`
+}
+
+func (x *GetChestsReply) Reset() {
+	*x = GetChestsReply{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chests_chests_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetChestsReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetChestsReply) ProtoMessage() {}
+
+func (x *GetChestsReply) ProtoReflect() protoreflect.Message {
+	mi := &file_chests_chests_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetChestsReply.ProtoReflect.Descriptor instead.
+func (*GetChestsReply) Descriptor() ([]byte, []int) {
+	return file_chests_chests_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetChestsReply) GetChests() []*Chest {
+	if x != nil {
+		return x.Chests
+	}
+	return nil
+}
+
+func (x *GetChestsReply) GetCurrent() *Chest {
+	if x != nil {
+		return x.Current
+	}
+	return nil
+}
+
+type Timestamp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Seconds int64 `protobuf:"varint,1,opt,name=seconds,proto3" json:"seconds,omitempty"`
+}
+
+func (x *Timestamp) Reset() {
+	*x = Timestamp{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chests_chests_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Timestamp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Timestamp) ProtoMessage() {}
+
+func (x *Timestamp) ProtoReflect() protoreflect.Message {
+	mi := &file_chests_chests_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Timestamp.ProtoReflect.Descriptor instead.
+func (*Timestamp) Descriptor() ([]byte, []int) {
+	return file_chests_chests_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *Timestamp) GetSeconds() int64 {
+	if x != nil {
+		return x.Seconds
+	}
+	return 0
+}
+
+type Chest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id      *ChestId  `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Variety ChestType `protobuf:"varint,2,opt,name=variety,proto3,enum=chests.ChestType" json:"variety,omitempty"`
+	// Types that are assignable to State:
+	//
+	//	*Chest_Tried
+	//	*Chest_Waiting
+	//	*Chest_SolvedBy
+	//	*Chest_Expired
+	State isChest_State `protobuf_oneof:"state"`
+}
+
+func (x *Chest) Reset() {
+	*x = Chest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chests_chests_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Chest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Chest) ProtoMessage() {}
+
+func (x *Chest) ProtoReflect() protoreflect.Message {
+	mi := &file_chests_chests_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Chest.ProtoReflect.Descriptor instead.
+func (*Chest) Descriptor() ([]byte, []int) {
+	return file_chests_chests_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *Chest) GetId() *ChestId {
+	if x != nil {
+		return x.Id
+	}
+	return nil
+}
+
+func (x *Chest) GetVariety() ChestType {
+	if x != nil {
+		return x.Variety
+	}
+	return ChestType_CHEST_TYPE_UNSPECIFIED
+}
+
+func (m *Chest) GetState() isChest_State {
+	if m != nil {
+		return m.State
+	}
+	return nil
+}
+
+func (x *Chest) GetTried() []byte {
+	if x, ok := x.GetState().(*Chest_Tried); ok {
+		return x.Tried
+	}
+	return nil
+}
+
+func (x *Chest) GetWaiting() *Timestamp {
+	if x, ok := x.GetState().(*Chest_Waiting); ok {
+		return x.Waiting
+	}
+	return nil
+}
+
+func (x *Chest) GetSolvedBy() string {
+	if x, ok := x.GetState().(*Chest_SolvedBy); ok {
+		return x.SolvedBy
 	}
 	return ""
+}
+
+func (x *Chest) GetExpired() *Timestamp {
+	if x, ok := x.GetState().(*Chest_Expired); ok {
+		return x.Expired
+	}
+	return nil
+}
+
+type isChest_State interface {
+	isChest_State()
+}
+
+type Chest_Tried struct {
+	// bitmap of attempts made by all users
+	// zero length unless it is the current chest
+	Tried []byte `protobuf:"bytes,3,opt,name=tried,proto3,oneof"`
+}
+
+type Chest_Waiting struct {
+	// user has to wait until timestamp to try again
+	Waiting *Timestamp `protobuf:"bytes,4,opt,name=waiting,proto3,oneof"`
+}
+
+type Chest_SolvedBy struct {
+	// the chest is solved by someone
+	SolvedBy string `protobuf:"bytes,5,opt,name=solved_by,json=solvedBy,proto3,oneof"`
+}
+
+type Chest_Expired struct {
+	// the chest expired without being solved
+	Expired *Timestamp `protobuf:"bytes,6,opt,name=expired,proto3,oneof"`
+}
+
+func (*Chest_Tried) isChest_State() {}
+
+func (*Chest_Waiting) isChest_State() {}
+
+func (*Chest_SolvedBy) isChest_State() {}
+
+func (*Chest_Expired) isChest_State() {}
+
+type SubmitGuessRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id    *ChestId `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Guess uint32   `protobuf:"varint,2,opt,name=guess,proto3" json:"guess,omitempty"`
+}
+
+func (x *SubmitGuessRequest) Reset() {
+	*x = SubmitGuessRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chests_chests_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SubmitGuessRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SubmitGuessRequest) ProtoMessage() {}
+
+func (x *SubmitGuessRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_chests_chests_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SubmitGuessRequest.ProtoReflect.Descriptor instead.
+func (*SubmitGuessRequest) Descriptor() ([]byte, []int) {
+	return file_chests_chests_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *SubmitGuessRequest) GetId() *ChestId {
+	if x != nil {
+		return x.Id
+	}
+	return nil
+}
+
+func (x *SubmitGuessRequest) GetGuess() uint32 {
+	if x != nil {
+		return x.Guess
+	}
+	return 0
+}
+
+// Should a conflict be a different state or an error status?
+type SubmitGuessReply struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Won bool `protobuf:"varint,1,opt,name=won,proto3" json:"won,omitempty"`
+}
+
+func (x *SubmitGuessReply) Reset() {
+	*x = SubmitGuessReply{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chests_chests_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SubmitGuessReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SubmitGuessReply) ProtoMessage() {}
+
+func (x *SubmitGuessReply) ProtoReflect() protoreflect.Message {
+	mi := &file_chests_chests_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SubmitGuessReply.ProtoReflect.Descriptor instead.
+func (*SubmitGuessReply) Descriptor() ([]byte, []int) {
+	return file_chests_chests_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *SubmitGuessReply) GetWon() bool {
+	if x != nil {
+		return x.Won
+	}
+	return false
+}
+
+type SetNotificationRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id                 *ChestId `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	EnableNotificatons bool     `protobuf:"varint,2,opt,name=enable_notificatons,json=enableNotificatons,proto3" json:"enable_notificatons,omitempty"`
+}
+
+func (x *SetNotificationRequest) Reset() {
+	*x = SetNotificationRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chests_chests_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SetNotificationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetNotificationRequest) ProtoMessage() {}
+
+func (x *SetNotificationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_chests_chests_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetNotificationRequest.ProtoReflect.Descriptor instead.
+func (*SetNotificationRequest) Descriptor() ([]byte, []int) {
+	return file_chests_chests_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *SetNotificationRequest) GetId() *ChestId {
+	if x != nil {
+		return x.Id
+	}
+	return nil
+}
+
+func (x *SetNotificationRequest) GetEnableNotificatons() bool {
+	if x != nil {
+		return x.EnableNotificatons
+	}
+	return false
+}
+
+type SetNotificationReply struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *SetNotificationReply) Reset() {
+	*x = SetNotificationReply{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chests_chests_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SetNotificationReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetNotificationReply) ProtoMessage() {}
+
+func (x *SetNotificationReply) ProtoReflect() protoreflect.Message {
+	mi := &file_chests_chests_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetNotificationReply.ProtoReflect.Descriptor instead.
+func (*SetNotificationReply) Descriptor() ([]byte, []int) {
+	return file_chests_chests_proto_rawDescGZIP(), []int{9}
 }
 
 var File_chests_chests_proto protoreflect.FileDescriptor
 
 var file_chests_chests_proto_rawDesc = []byte{
 	0x0a, 0x13, 0x63, 0x68, 0x65, 0x73, 0x74, 0x73, 0x2f, 0x63, 0x68, 0x65, 0x73, 0x74, 0x73, 0x2e,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x23, 0x0a, 0x0d, 0x43, 0x68, 0x65, 0x73, 0x74, 0x73, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01,
-	0x20, 0x02, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x27, 0x0a, 0x0b, 0x43, 0x68,
-	0x65, 0x73, 0x74, 0x73, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73,
-	0x73, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x02, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73,
-	0x61, 0x67, 0x65, 0x32, 0x32, 0x0a, 0x06, 0x43, 0x68, 0x65, 0x73, 0x74, 0x73, 0x12, 0x28, 0x0a,
-	0x06, 0x43, 0x68, 0x65, 0x73, 0x74, 0x73, 0x12, 0x0e, 0x2e, 0x43, 0x68, 0x65, 0x73, 0x74, 0x73,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0c, 0x2e, 0x43, 0x68, 0x65, 0x73, 0x74, 0x73,
-	0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x00, 0x42, 0x1d, 0x5a, 0x1b, 0x67, 0x69, 0x74, 0x68, 0x75,
-	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6d, 0x65, 0x62, 0x2d, 0x72, 0x75, 0x2f, 0x70, 0x62, 0x2f,
-	0x63, 0x68, 0x65, 0x73, 0x74, 0x73,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x06, 0x63, 0x68, 0x65, 0x73, 0x74, 0x73, 0x22, 0x57, 0x0a,
+	0x10, 0x47, 0x65, 0x74, 0x43, 0x68, 0x65, 0x73, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x12, 0x22, 0x0a, 0x04, 0x75, 0x73, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x0e, 0x2e, 0x63, 0x68, 0x65, 0x73, 0x74, 0x73, 0x2e, 0x54, 0x67, 0x55, 0x73, 0x65, 0x72, 0x52,
+	0x04, 0x75, 0x73, 0x65, 0x72, 0x12, 0x1f, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x0f, 0x2e, 0x63, 0x68, 0x65, 0x73, 0x74, 0x73, 0x2e, 0x43, 0x68, 0x65, 0x73, 0x74,
+	0x49, 0x64, 0x52, 0x02, 0x69, 0x64, 0x22, 0x18, 0x0a, 0x06, 0x54, 0x67, 0x55, 0x73, 0x65, 0x72,
+	0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64,
+	0x22, 0x19, 0x0a, 0x07, 0x43, 0x68, 0x65, 0x73, 0x74, 0x49, 0x64, 0x12, 0x0e, 0x0a, 0x02, 0x69,
+	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x12, 0x52, 0x02, 0x69, 0x64, 0x22, 0x60, 0x0a, 0x0e, 0x47,
+	0x65, 0x74, 0x43, 0x68, 0x65, 0x73, 0x74, 0x73, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x12, 0x25, 0x0a,
+	0x06, 0x63, 0x68, 0x65, 0x73, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0d, 0x2e,
+	0x63, 0x68, 0x65, 0x73, 0x74, 0x73, 0x2e, 0x43, 0x68, 0x65, 0x73, 0x74, 0x52, 0x06, 0x63, 0x68,
+	0x65, 0x73, 0x74, 0x73, 0x12, 0x27, 0x0a, 0x07, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x63, 0x68, 0x65, 0x73, 0x74, 0x73, 0x2e, 0x43,
+	0x68, 0x65, 0x73, 0x74, 0x52, 0x07, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x22, 0x25, 0x0a,
+	0x09, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x65,
+	0x63, 0x6f, 0x6e, 0x64, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x07, 0x73, 0x65, 0x63,
+	0x6f, 0x6e, 0x64, 0x73, 0x22, 0xf3, 0x01, 0x0a, 0x05, 0x43, 0x68, 0x65, 0x73, 0x74, 0x12, 0x1f,
+	0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x63, 0x68, 0x65,
+	0x73, 0x74, 0x73, 0x2e, 0x43, 0x68, 0x65, 0x73, 0x74, 0x49, 0x64, 0x52, 0x02, 0x69, 0x64, 0x12,
+	0x2b, 0x0a, 0x07, 0x76, 0x61, 0x72, 0x69, 0x65, 0x74, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e,
+	0x32, 0x11, 0x2e, 0x63, 0x68, 0x65, 0x73, 0x74, 0x73, 0x2e, 0x43, 0x68, 0x65, 0x73, 0x74, 0x54,
+	0x79, 0x70, 0x65, 0x52, 0x07, 0x76, 0x61, 0x72, 0x69, 0x65, 0x74, 0x79, 0x12, 0x16, 0x0a, 0x05,
+	0x74, 0x72, 0x69, 0x65, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0c, 0x48, 0x00, 0x52, 0x05, 0x74,
+	0x72, 0x69, 0x65, 0x64, 0x12, 0x2d, 0x0a, 0x07, 0x77, 0x61, 0x69, 0x74, 0x69, 0x6e, 0x67, 0x18,
+	0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x63, 0x68, 0x65, 0x73, 0x74, 0x73, 0x2e, 0x74,
+	0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x48, 0x00, 0x52, 0x07, 0x77, 0x61, 0x69, 0x74,
+	0x69, 0x6e, 0x67, 0x12, 0x1d, 0x0a, 0x09, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x64, 0x5f, 0x62, 0x79,
+	0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x08, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x64,
+	0x42, 0x79, 0x12, 0x2d, 0x0a, 0x07, 0x65, 0x78, 0x70, 0x69, 0x72, 0x65, 0x64, 0x18, 0x06, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x63, 0x68, 0x65, 0x73, 0x74, 0x73, 0x2e, 0x74, 0x69, 0x6d,
+	0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x48, 0x00, 0x52, 0x07, 0x65, 0x78, 0x70, 0x69, 0x72, 0x65,
+	0x64, 0x42, 0x07, 0x0a, 0x05, 0x73, 0x74, 0x61, 0x74, 0x65, 0x22, 0x4b, 0x0a, 0x12, 0x53, 0x75,
+	0x62, 0x6d, 0x69, 0x74, 0x47, 0x75, 0x65, 0x73, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x1f, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x63,
+	0x68, 0x65, 0x73, 0x74, 0x73, 0x2e, 0x43, 0x68, 0x65, 0x73, 0x74, 0x49, 0x64, 0x52, 0x02, 0x69,
+	0x64, 0x12, 0x14, 0x0a, 0x05, 0x67, 0x75, 0x65, 0x73, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d,
+	0x52, 0x05, 0x67, 0x75, 0x65, 0x73, 0x73, 0x22, 0x24, 0x0a, 0x10, 0x53, 0x75, 0x62, 0x6d, 0x69,
+	0x74, 0x47, 0x75, 0x65, 0x73, 0x73, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x77,
+	0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x03, 0x77, 0x6f, 0x6e, 0x22, 0x6a, 0x0a,
+	0x16, 0x53, 0x65, 0x74, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1f, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x63, 0x68, 0x65, 0x73, 0x74, 0x73, 0x2e, 0x43, 0x68, 0x65,
+	0x73, 0x74, 0x49, 0x64, 0x52, 0x02, 0x69, 0x64, 0x12, 0x2f, 0x0a, 0x13, 0x65, 0x6e, 0x61, 0x62,
+	0x6c, 0x65, 0x5f, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x6f, 0x6e, 0x73, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x08, 0x52, 0x12, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x4e, 0x6f, 0x74,
+	0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x6f, 0x6e, 0x73, 0x22, 0x16, 0x0a, 0x14, 0x53, 0x65, 0x74,
+	0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6c,
+	0x79, 0x2a, 0x5b, 0x0a, 0x09, 0x43, 0x68, 0x65, 0x73, 0x74, 0x54, 0x79, 0x70, 0x65, 0x12, 0x1a,
+	0x0a, 0x16, 0x43, 0x48, 0x45, 0x53, 0x54, 0x5f, 0x54, 0x59, 0x50, 0x45, 0x5f, 0x55, 0x4e, 0x53,
+	0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x16, 0x0a, 0x12, 0x43, 0x48,
+	0x45, 0x53, 0x54, 0x5f, 0x54, 0x59, 0x50, 0x45, 0x5f, 0x52, 0x45, 0x47, 0x55, 0x4c, 0x41, 0x52,
+	0x10, 0x01, 0x12, 0x1a, 0x0a, 0x16, 0x43, 0x48, 0x45, 0x53, 0x54, 0x5f, 0x54, 0x59, 0x50, 0x45,
+	0x5f, 0x50, 0x52, 0x4f, 0x4d, 0x4f, 0x54, 0x49, 0x4f, 0x4e, 0x41, 0x4c, 0x10, 0x02, 0x32, 0xe7,
+	0x01, 0x0a, 0x0a, 0x4f, 0x6c, 0x65, 0x67, 0x43, 0x68, 0x65, 0x73, 0x74, 0x73, 0x12, 0x3f, 0x0a,
+	0x09, 0x47, 0x65, 0x74, 0x43, 0x68, 0x65, 0x73, 0x74, 0x73, 0x12, 0x18, 0x2e, 0x63, 0x68, 0x65,
+	0x73, 0x74, 0x73, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x68, 0x65, 0x73, 0x74, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x16, 0x2e, 0x63, 0x68, 0x65, 0x73, 0x74, 0x73, 0x2e, 0x47, 0x65,
+	0x74, 0x43, 0x68, 0x65, 0x73, 0x74, 0x73, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x00, 0x12, 0x45,
+	0x0a, 0x0b, 0x53, 0x75, 0x62, 0x6d, 0x69, 0x74, 0x47, 0x75, 0x65, 0x73, 0x73, 0x12, 0x1a, 0x2e,
+	0x63, 0x68, 0x65, 0x73, 0x74, 0x73, 0x2e, 0x53, 0x75, 0x62, 0x6d, 0x69, 0x74, 0x47, 0x75, 0x65,
+	0x73, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x18, 0x2e, 0x63, 0x68, 0x65, 0x73,
+	0x74, 0x73, 0x2e, 0x53, 0x75, 0x62, 0x6d, 0x69, 0x74, 0x47, 0x75, 0x65, 0x73, 0x73, 0x52, 0x65,
+	0x70, 0x6c, 0x79, 0x22, 0x00, 0x12, 0x51, 0x0a, 0x0f, 0x53, 0x65, 0x74, 0x4e, 0x6f, 0x74, 0x69,
+	0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1e, 0x2e, 0x63, 0x68, 0x65, 0x73, 0x74,
+	0x73, 0x2e, 0x53, 0x65, 0x74, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1c, 0x2e, 0x63, 0x68, 0x65, 0x73, 0x74,
+	0x73, 0x2e, 0x53, 0x65, 0x74, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x00, 0x42, 0x1d, 0x5a, 0x1b, 0x67, 0x69, 0x74, 0x68,
+	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6d, 0x65, 0x62, 0x2d, 0x72, 0x75, 0x2f, 0x70, 0x62,
+	0x2f, 0x63, 0x68, 0x65, 0x73, 0x74, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -145,19 +738,43 @@ func file_chests_chests_proto_rawDescGZIP() []byte {
 	return file_chests_chests_proto_rawDescData
 }
 
-var file_chests_chests_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_chests_chests_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_chests_chests_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_chests_chests_proto_goTypes = []any{
-	(*ChestsRequest)(nil), // 0: ChestsRequest
-	(*ChestsReply)(nil),   // 1: ChestsReply
+	(ChestType)(0),                 // 0: chests.ChestType
+	(*GetChestsRequest)(nil),       // 1: chests.GetChestsRequest
+	(*TgUser)(nil),                 // 2: chests.TgUser
+	(*ChestId)(nil),                // 3: chests.ChestId
+	(*GetChestsReply)(nil),         // 4: chests.GetChestsReply
+	(*Timestamp)(nil),              // 5: chests.timestamp
+	(*Chest)(nil),                  // 6: chests.Chest
+	(*SubmitGuessRequest)(nil),     // 7: chests.SubmitGuessRequest
+	(*SubmitGuessReply)(nil),       // 8: chests.SubmitGuessReply
+	(*SetNotificationRequest)(nil), // 9: chests.SetNotificationRequest
+	(*SetNotificationReply)(nil),   // 10: chests.SetNotificationReply
 }
 var file_chests_chests_proto_depIdxs = []int32{
-	0, // 0: Chests.Chests:input_type -> ChestsRequest
-	1, // 1: Chests.Chests:output_type -> ChestsReply
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	2,  // 0: chests.GetChestsRequest.user:type_name -> chests.TgUser
+	3,  // 1: chests.GetChestsRequest.id:type_name -> chests.ChestId
+	6,  // 2: chests.GetChestsReply.chests:type_name -> chests.Chest
+	6,  // 3: chests.GetChestsReply.current:type_name -> chests.Chest
+	3,  // 4: chests.Chest.id:type_name -> chests.ChestId
+	0,  // 5: chests.Chest.variety:type_name -> chests.ChestType
+	5,  // 6: chests.Chest.waiting:type_name -> chests.timestamp
+	5,  // 7: chests.Chest.expired:type_name -> chests.timestamp
+	3,  // 8: chests.SubmitGuessRequest.id:type_name -> chests.ChestId
+	3,  // 9: chests.SetNotificationRequest.id:type_name -> chests.ChestId
+	1,  // 10: chests.OlegChests.GetChests:input_type -> chests.GetChestsRequest
+	7,  // 11: chests.OlegChests.SubmitGuess:input_type -> chests.SubmitGuessRequest
+	9,  // 12: chests.OlegChests.SetNotification:input_type -> chests.SetNotificationRequest
+	4,  // 13: chests.OlegChests.GetChests:output_type -> chests.GetChestsReply
+	8,  // 14: chests.OlegChests.SubmitGuess:output_type -> chests.SubmitGuessReply
+	10, // 15: chests.OlegChests.SetNotification:output_type -> chests.SetNotificationReply
+	13, // [13:16] is the sub-list for method output_type
+	10, // [10:13] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_chests_chests_proto_init() }
@@ -167,7 +784,7 @@ func file_chests_chests_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_chests_chests_proto_msgTypes[0].Exporter = func(v any, i int) any {
-			switch v := v.(*ChestsRequest); i {
+			switch v := v.(*GetChestsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -179,7 +796,103 @@ func file_chests_chests_proto_init() {
 			}
 		}
 		file_chests_chests_proto_msgTypes[1].Exporter = func(v any, i int) any {
-			switch v := v.(*ChestsReply); i {
+			switch v := v.(*TgUser); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_chests_chests_proto_msgTypes[2].Exporter = func(v any, i int) any {
+			switch v := v.(*ChestId); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_chests_chests_proto_msgTypes[3].Exporter = func(v any, i int) any {
+			switch v := v.(*GetChestsReply); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_chests_chests_proto_msgTypes[4].Exporter = func(v any, i int) any {
+			switch v := v.(*Timestamp); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_chests_chests_proto_msgTypes[5].Exporter = func(v any, i int) any {
+			switch v := v.(*Chest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_chests_chests_proto_msgTypes[6].Exporter = func(v any, i int) any {
+			switch v := v.(*SubmitGuessRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_chests_chests_proto_msgTypes[7].Exporter = func(v any, i int) any {
+			switch v := v.(*SubmitGuessReply); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_chests_chests_proto_msgTypes[8].Exporter = func(v any, i int) any {
+			switch v := v.(*SetNotificationRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_chests_chests_proto_msgTypes[9].Exporter = func(v any, i int) any {
+			switch v := v.(*SetNotificationReply); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -191,18 +904,25 @@ func file_chests_chests_proto_init() {
 			}
 		}
 	}
+	file_chests_chests_proto_msgTypes[5].OneofWrappers = []any{
+		(*Chest_Tried)(nil),
+		(*Chest_Waiting)(nil),
+		(*Chest_SolvedBy)(nil),
+		(*Chest_Expired)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_chests_chests_proto_rawDesc,
-			NumEnums:      0,
-			NumMessages:   2,
+			NumEnums:      1,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_chests_chests_proto_goTypes,
 		DependencyIndexes: file_chests_chests_proto_depIdxs,
+		EnumInfos:         file_chests_chests_proto_enumTypes,
 		MessageInfos:      file_chests_chests_proto_msgTypes,
 	}.Build()
 	File_chests_chests_proto = out.File

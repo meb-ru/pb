@@ -19,91 +19,165 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Chests_Chests_FullMethodName = "/Chests/Chests"
+	OlegChests_GetChests_FullMethodName       = "/chests.OlegChests/GetChests"
+	OlegChests_SubmitGuess_FullMethodName     = "/chests.OlegChests/SubmitGuess"
+	OlegChests_SetNotification_FullMethodName = "/chests.OlegChests/SetNotification"
 )
 
-// ChestsClient is the client API for Chests service.
+// OlegChestsClient is the client API for OlegChests service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ChestsClient interface {
+type OlegChestsClient interface {
 	// Sends a greeting
-	Chests(ctx context.Context, in *ChestsRequest, opts ...grpc.CallOption) (*ChestsReply, error)
+	GetChests(ctx context.Context, in *GetChestsRequest, opts ...grpc.CallOption) (*GetChestsReply, error)
+	SubmitGuess(ctx context.Context, in *SubmitGuessRequest, opts ...grpc.CallOption) (*SubmitGuessReply, error)
+	SetNotification(ctx context.Context, in *SetNotificationRequest, opts ...grpc.CallOption) (*SetNotificationReply, error)
 }
 
-type chestsClient struct {
+type olegChestsClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewChestsClient(cc grpc.ClientConnInterface) ChestsClient {
-	return &chestsClient{cc}
+func NewOlegChestsClient(cc grpc.ClientConnInterface) OlegChestsClient {
+	return &olegChestsClient{cc}
 }
 
-func (c *chestsClient) Chests(ctx context.Context, in *ChestsRequest, opts ...grpc.CallOption) (*ChestsReply, error) {
-	out := new(ChestsReply)
-	err := c.cc.Invoke(ctx, Chests_Chests_FullMethodName, in, out, opts...)
+func (c *olegChestsClient) GetChests(ctx context.Context, in *GetChestsRequest, opts ...grpc.CallOption) (*GetChestsReply, error) {
+	out := new(GetChestsReply)
+	err := c.cc.Invoke(ctx, OlegChests_GetChests_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ChestsServer is the server API for Chests service.
-// All implementations must embed UnimplementedChestsServer
+func (c *olegChestsClient) SubmitGuess(ctx context.Context, in *SubmitGuessRequest, opts ...grpc.CallOption) (*SubmitGuessReply, error) {
+	out := new(SubmitGuessReply)
+	err := c.cc.Invoke(ctx, OlegChests_SubmitGuess_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *olegChestsClient) SetNotification(ctx context.Context, in *SetNotificationRequest, opts ...grpc.CallOption) (*SetNotificationReply, error) {
+	out := new(SetNotificationReply)
+	err := c.cc.Invoke(ctx, OlegChests_SetNotification_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// OlegChestsServer is the server API for OlegChests service.
+// All implementations must embed UnimplementedOlegChestsServer
 // for forward compatibility
-type ChestsServer interface {
+type OlegChestsServer interface {
 	// Sends a greeting
-	Chests(context.Context, *ChestsRequest) (*ChestsReply, error)
-	mustEmbedUnimplementedChestsServer()
+	GetChests(context.Context, *GetChestsRequest) (*GetChestsReply, error)
+	SubmitGuess(context.Context, *SubmitGuessRequest) (*SubmitGuessReply, error)
+	SetNotification(context.Context, *SetNotificationRequest) (*SetNotificationReply, error)
+	mustEmbedUnimplementedOlegChestsServer()
 }
 
-// UnimplementedChestsServer must be embedded to have forward compatible implementations.
-type UnimplementedChestsServer struct {
+// UnimplementedOlegChestsServer must be embedded to have forward compatible implementations.
+type UnimplementedOlegChestsServer struct {
 }
 
-func (UnimplementedChestsServer) Chests(context.Context, *ChestsRequest) (*ChestsReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Chests not implemented")
+func (UnimplementedOlegChestsServer) GetChests(context.Context, *GetChestsRequest) (*GetChestsReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetChests not implemented")
 }
-func (UnimplementedChestsServer) mustEmbedUnimplementedChestsServer() {}
+func (UnimplementedOlegChestsServer) SubmitGuess(context.Context, *SubmitGuessRequest) (*SubmitGuessReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SubmitGuess not implemented")
+}
+func (UnimplementedOlegChestsServer) SetNotification(context.Context, *SetNotificationRequest) (*SetNotificationReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetNotification not implemented")
+}
+func (UnimplementedOlegChestsServer) mustEmbedUnimplementedOlegChestsServer() {}
 
-// UnsafeChestsServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ChestsServer will
+// UnsafeOlegChestsServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to OlegChestsServer will
 // result in compilation errors.
-type UnsafeChestsServer interface {
-	mustEmbedUnimplementedChestsServer()
+type UnsafeOlegChestsServer interface {
+	mustEmbedUnimplementedOlegChestsServer()
 }
 
-func RegisterChestsServer(s grpc.ServiceRegistrar, srv ChestsServer) {
-	s.RegisterService(&Chests_ServiceDesc, srv)
+func RegisterOlegChestsServer(s grpc.ServiceRegistrar, srv OlegChestsServer) {
+	s.RegisterService(&OlegChests_ServiceDesc, srv)
 }
 
-func _Chests_Chests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ChestsRequest)
+func _OlegChests_GetChests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetChestsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ChestsServer).Chests(ctx, in)
+		return srv.(OlegChestsServer).GetChests(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Chests_Chests_FullMethodName,
+		FullMethod: OlegChests_GetChests_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChestsServer).Chests(ctx, req.(*ChestsRequest))
+		return srv.(OlegChestsServer).GetChests(ctx, req.(*GetChestsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Chests_ServiceDesc is the grpc.ServiceDesc for Chests service.
+func _OlegChests_SubmitGuess_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SubmitGuessRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OlegChestsServer).SubmitGuess(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OlegChests_SubmitGuess_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OlegChestsServer).SubmitGuess(ctx, req.(*SubmitGuessRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OlegChests_SetNotification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetNotificationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OlegChestsServer).SetNotification(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OlegChests_SetNotification_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OlegChestsServer).SetNotification(ctx, req.(*SetNotificationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// OlegChests_ServiceDesc is the grpc.ServiceDesc for OlegChests service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Chests_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "Chests",
-	HandlerType: (*ChestsServer)(nil),
+var OlegChests_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "chests.OlegChests",
+	HandlerType: (*OlegChestsServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Chests",
-			Handler:    _Chests_Chests_Handler,
+			MethodName: "GetChests",
+			Handler:    _OlegChests_GetChests_Handler,
+		},
+		{
+			MethodName: "SubmitGuess",
+			Handler:    _OlegChests_SubmitGuess_Handler,
+		},
+		{
+			MethodName: "SetNotification",
+			Handler:    _OlegChests_SetNotification_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

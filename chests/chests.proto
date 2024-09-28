@@ -1,17 +1,81 @@
+syntax = "proto3";
+package chests;
 option go_package = "github.com/meb-ru/pb/chests";
 
+// import "google/protobuf/timestamp.proto";
+
 // The greeting service definition.
-service Chests {
+service OlegChests {
   // Sends a greeting
-  rpc Chests (ChestsRequest) returns (ChestsReply) {}
+  rpc GetChests (GetChestsRequest) returns (GetChestsReply) {}
+  rpc SubmitGuess (SubmitGuessRequest) returns (SubmitGuessReply) {}
+  rpc SetNotification (SetNotificationRequest) returns (SetNotificationReply) {}
 }
 
 // The request message containing the user's name.
-message ChestsRequest {
-  required string name = 1;
+message GetChestsRequest {
+  TgUser user = 1;
+  ChestId id = 2;
+}
+
+message TgUser {
+  int64 id = 1;
+}
+
+message ChestId {
+  sint64 id = 1;
+}
+
+enum ChestType {
+  CHEST_TYPE_UNSPECIFIED = 0;
+  CHEST_TYPE_REGULAR = 1;
+  CHEST_TYPE_PROMOTIONAL = 2;
 }
 
 // The response message containing the greetings
-message ChestsReply {
-  required string message = 1;
+message GetChestsReply {
+  repeated Chest chests = 1;
+  Chest current = 2;
 }
+
+message timestamp {
+  int64 seconds = 1;
+}
+
+message Chest {
+  ChestId id = 1;
+  ChestType variety = 2;
+  oneof state {
+    // bitmap of attempts made by all users
+    // zero length unless it is the current chest
+    bytes tried = 3;
+    // user has to wait until timestamp to try again
+    timestamp waiting = 4;
+    // the chest is solved by someone
+    string solved_by = 5;
+    // the chest expired without being solved
+    timestamp expired = 6;
+  }
+}
+
+
+message SubmitGuessRequest {
+  ChestId id = 1;
+  uint32 guess = 2;
+}
+
+// Should a conflict be a different state or an error status?
+message SubmitGuessReply {
+  bool won = 1;
+}
+
+
+message SetNotificationRequest {
+  ChestId id = 1;
+  bool enable_notificatons = 2;
+}
+message SetNotificationReply {}
+
+// Bad user = NOT_FOUND || PERMISSION_DENIED
+// Not accepted chatbot = FAILED_PRECONDITION
+// Attempted to submit before timestamp = RESOURCE_EXHAUSTED
