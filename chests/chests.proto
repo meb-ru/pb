@@ -4,15 +4,14 @@ option go_package = "github.com/meb-ru/pb/chests";
 
 // import "google/protobuf/timestamp.proto";
 
-// The greeting service definition.
-service OlegChests {
-  // Sends a greeting
+service CipherChests {
+  // Get all chests visible to a user
   rpc GetChests (GetChestsRequest) returns (GetChestsReply) {}
+  rpc GetChestTrymap (GetChestTrymapRequest) returns (GetChestTrymapReply) {}
   rpc SubmitGuess (SubmitGuessRequest) returns (SubmitGuessReply) {}
   rpc SetNotification (SetNotificationRequest) returns (SetNotificationReply) {}
 }
 
-// The request message containing the user's name.
 message GetChestsRequest {
   TgUser user = 1;
   ChestId id = 2;
@@ -22,6 +21,7 @@ message TgUser {
   int64 id = 1;
 }
 
+// TODO: can this be unsigned?
 message ChestId {
   sint64 id = 1;
 }
@@ -32,10 +32,12 @@ enum ChestType {
   CHEST_TYPE_PROMOTIONAL = 2;
 }
 
-// The response message containing the greetings
 message GetChestsReply {
   repeated Chest chests = 1;
-  Chest current = 2;
+  uint32 selected = 2;
+  // key in map cannot be bytes or message type
+  map<sint64,Chest> by_id = 3;
+  ChestId selected_id = 4;
 }
 
 message timestamp {
@@ -46,9 +48,8 @@ message Chest {
   ChestId id = 1;
   ChestType variety = 2;
   oneof state {
-    // bitmap of attempts made by all users
-    // zero length unless it is the current chest
-    bytes tried = 3;
+    // at least this many unique codes have been tried
+    uint32 tried = 3;
     // user has to wait until timestamp to try again
     timestamp waiting = 4;
     // the chest is solved by someone
@@ -56,8 +57,18 @@ message Chest {
     // the chest expired without being solved
     timestamp expired = 6;
   }
+  bool selected = 15;
 }
 
+message GetChestTrymapRequest {
+  ChestId id = 1;
+}
+
+message GetChestTrymapReply {
+  // bitmap of attempts made by all users
+  // zero length unless it is the current chest
+  bytes trymap = 1;
+}
 
 message SubmitGuessRequest {
   ChestId id = 1;

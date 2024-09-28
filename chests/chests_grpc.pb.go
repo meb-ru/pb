@@ -19,165 +19,202 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	OlegChests_GetChests_FullMethodName       = "/chests.OlegChests/GetChests"
-	OlegChests_SubmitGuess_FullMethodName     = "/chests.OlegChests/SubmitGuess"
-	OlegChests_SetNotification_FullMethodName = "/chests.OlegChests/SetNotification"
+	CipherChests_GetChests_FullMethodName       = "/chests.CipherChests/GetChests"
+	CipherChests_GetChestTrymap_FullMethodName  = "/chests.CipherChests/GetChestTrymap"
+	CipherChests_SubmitGuess_FullMethodName     = "/chests.CipherChests/SubmitGuess"
+	CipherChests_SetNotification_FullMethodName = "/chests.CipherChests/SetNotification"
 )
 
-// OlegChestsClient is the client API for OlegChests service.
+// CipherChestsClient is the client API for CipherChests service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type OlegChestsClient interface {
-	// Sends a greeting
+type CipherChestsClient interface {
+	// Get all chests visible to a user
 	GetChests(ctx context.Context, in *GetChestsRequest, opts ...grpc.CallOption) (*GetChestsReply, error)
+	GetChestTrymap(ctx context.Context, in *GetChestTrymapRequest, opts ...grpc.CallOption) (*GetChestTrymapReply, error)
 	SubmitGuess(ctx context.Context, in *SubmitGuessRequest, opts ...grpc.CallOption) (*SubmitGuessReply, error)
 	SetNotification(ctx context.Context, in *SetNotificationRequest, opts ...grpc.CallOption) (*SetNotificationReply, error)
 }
 
-type olegChestsClient struct {
+type cipherChestsClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewOlegChestsClient(cc grpc.ClientConnInterface) OlegChestsClient {
-	return &olegChestsClient{cc}
+func NewCipherChestsClient(cc grpc.ClientConnInterface) CipherChestsClient {
+	return &cipherChestsClient{cc}
 }
 
-func (c *olegChestsClient) GetChests(ctx context.Context, in *GetChestsRequest, opts ...grpc.CallOption) (*GetChestsReply, error) {
+func (c *cipherChestsClient) GetChests(ctx context.Context, in *GetChestsRequest, opts ...grpc.CallOption) (*GetChestsReply, error) {
 	out := new(GetChestsReply)
-	err := c.cc.Invoke(ctx, OlegChests_GetChests_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CipherChests_GetChests_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *olegChestsClient) SubmitGuess(ctx context.Context, in *SubmitGuessRequest, opts ...grpc.CallOption) (*SubmitGuessReply, error) {
+func (c *cipherChestsClient) GetChestTrymap(ctx context.Context, in *GetChestTrymapRequest, opts ...grpc.CallOption) (*GetChestTrymapReply, error) {
+	out := new(GetChestTrymapReply)
+	err := c.cc.Invoke(ctx, CipherChests_GetChestTrymap_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cipherChestsClient) SubmitGuess(ctx context.Context, in *SubmitGuessRequest, opts ...grpc.CallOption) (*SubmitGuessReply, error) {
 	out := new(SubmitGuessReply)
-	err := c.cc.Invoke(ctx, OlegChests_SubmitGuess_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CipherChests_SubmitGuess_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *olegChestsClient) SetNotification(ctx context.Context, in *SetNotificationRequest, opts ...grpc.CallOption) (*SetNotificationReply, error) {
+func (c *cipherChestsClient) SetNotification(ctx context.Context, in *SetNotificationRequest, opts ...grpc.CallOption) (*SetNotificationReply, error) {
 	out := new(SetNotificationReply)
-	err := c.cc.Invoke(ctx, OlegChests_SetNotification_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CipherChests_SetNotification_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// OlegChestsServer is the server API for OlegChests service.
-// All implementations must embed UnimplementedOlegChestsServer
+// CipherChestsServer is the server API for CipherChests service.
+// All implementations must embed UnimplementedCipherChestsServer
 // for forward compatibility
-type OlegChestsServer interface {
-	// Sends a greeting
+type CipherChestsServer interface {
+	// Get all chests visible to a user
 	GetChests(context.Context, *GetChestsRequest) (*GetChestsReply, error)
+	GetChestTrymap(context.Context, *GetChestTrymapRequest) (*GetChestTrymapReply, error)
 	SubmitGuess(context.Context, *SubmitGuessRequest) (*SubmitGuessReply, error)
 	SetNotification(context.Context, *SetNotificationRequest) (*SetNotificationReply, error)
-	mustEmbedUnimplementedOlegChestsServer()
+	mustEmbedUnimplementedCipherChestsServer()
 }
 
-// UnimplementedOlegChestsServer must be embedded to have forward compatible implementations.
-type UnimplementedOlegChestsServer struct {
+// UnimplementedCipherChestsServer must be embedded to have forward compatible implementations.
+type UnimplementedCipherChestsServer struct {
 }
 
-func (UnimplementedOlegChestsServer) GetChests(context.Context, *GetChestsRequest) (*GetChestsReply, error) {
+func (UnimplementedCipherChestsServer) GetChests(context.Context, *GetChestsRequest) (*GetChestsReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetChests not implemented")
 }
-func (UnimplementedOlegChestsServer) SubmitGuess(context.Context, *SubmitGuessRequest) (*SubmitGuessReply, error) {
+func (UnimplementedCipherChestsServer) GetChestTrymap(context.Context, *GetChestTrymapRequest) (*GetChestTrymapReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetChestTrymap not implemented")
+}
+func (UnimplementedCipherChestsServer) SubmitGuess(context.Context, *SubmitGuessRequest) (*SubmitGuessReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SubmitGuess not implemented")
 }
-func (UnimplementedOlegChestsServer) SetNotification(context.Context, *SetNotificationRequest) (*SetNotificationReply, error) {
+func (UnimplementedCipherChestsServer) SetNotification(context.Context, *SetNotificationRequest) (*SetNotificationReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetNotification not implemented")
 }
-func (UnimplementedOlegChestsServer) mustEmbedUnimplementedOlegChestsServer() {}
+func (UnimplementedCipherChestsServer) mustEmbedUnimplementedCipherChestsServer() {}
 
-// UnsafeOlegChestsServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to OlegChestsServer will
+// UnsafeCipherChestsServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CipherChestsServer will
 // result in compilation errors.
-type UnsafeOlegChestsServer interface {
-	mustEmbedUnimplementedOlegChestsServer()
+type UnsafeCipherChestsServer interface {
+	mustEmbedUnimplementedCipherChestsServer()
 }
 
-func RegisterOlegChestsServer(s grpc.ServiceRegistrar, srv OlegChestsServer) {
-	s.RegisterService(&OlegChests_ServiceDesc, srv)
+func RegisterCipherChestsServer(s grpc.ServiceRegistrar, srv CipherChestsServer) {
+	s.RegisterService(&CipherChests_ServiceDesc, srv)
 }
 
-func _OlegChests_GetChests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CipherChests_GetChests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetChestsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OlegChestsServer).GetChests(ctx, in)
+		return srv.(CipherChestsServer).GetChests(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OlegChests_GetChests_FullMethodName,
+		FullMethod: CipherChests_GetChests_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OlegChestsServer).GetChests(ctx, req.(*GetChestsRequest))
+		return srv.(CipherChestsServer).GetChests(ctx, req.(*GetChestsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OlegChests_SubmitGuess_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CipherChests_GetChestTrymap_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetChestTrymapRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CipherChestsServer).GetChestTrymap(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CipherChests_GetChestTrymap_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CipherChestsServer).GetChestTrymap(ctx, req.(*GetChestTrymapRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CipherChests_SubmitGuess_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SubmitGuessRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OlegChestsServer).SubmitGuess(ctx, in)
+		return srv.(CipherChestsServer).SubmitGuess(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OlegChests_SubmitGuess_FullMethodName,
+		FullMethod: CipherChests_SubmitGuess_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OlegChestsServer).SubmitGuess(ctx, req.(*SubmitGuessRequest))
+		return srv.(CipherChestsServer).SubmitGuess(ctx, req.(*SubmitGuessRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OlegChests_SetNotification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CipherChests_SetNotification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SetNotificationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OlegChestsServer).SetNotification(ctx, in)
+		return srv.(CipherChestsServer).SetNotification(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OlegChests_SetNotification_FullMethodName,
+		FullMethod: CipherChests_SetNotification_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OlegChestsServer).SetNotification(ctx, req.(*SetNotificationRequest))
+		return srv.(CipherChestsServer).SetNotification(ctx, req.(*SetNotificationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// OlegChests_ServiceDesc is the grpc.ServiceDesc for OlegChests service.
+// CipherChests_ServiceDesc is the grpc.ServiceDesc for CipherChests service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var OlegChests_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "chests.OlegChests",
-	HandlerType: (*OlegChestsServer)(nil),
+var CipherChests_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "chests.CipherChests",
+	HandlerType: (*CipherChestsServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetChests",
-			Handler:    _OlegChests_GetChests_Handler,
+			Handler:    _CipherChests_GetChests_Handler,
+		},
+		{
+			MethodName: "GetChestTrymap",
+			Handler:    _CipherChests_GetChestTrymap_Handler,
 		},
 		{
 			MethodName: "SubmitGuess",
-			Handler:    _OlegChests_SubmitGuess_Handler,
+			Handler:    _CipherChests_SubmitGuess_Handler,
 		},
 		{
 			MethodName: "SetNotification",
-			Handler:    _OlegChests_SetNotification_Handler,
+			Handler:    _CipherChests_SetNotification_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
