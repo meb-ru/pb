@@ -2,7 +2,7 @@ syntax = "proto3";
 package chests;
 option go_package = "github.com/meb-ru/pb/chests";
 
-// import "google/protobuf/timestamp.proto";
+import "google/protobuf/timestamp.proto";
 
 service CipherChests {
   // Get all chests visible to a user
@@ -40,10 +40,6 @@ message GetChestsReply {
   ChestId selected_id = 4;
 }
 
-message timestamp {
-  int64 seconds = 1;
-}
-
 message Chest {
   ChestId id = 1;
   ChestType variety = 2;
@@ -51,11 +47,11 @@ message Chest {
     // at least this many unique codes have been tried
     uint32 tried = 3;
     // user has to wait until timestamp to try again
-    timestamp waiting = 4;
+    google.protobuf.Timestamp waiting = 4;
     // the chest is solved by someone
     string solved_by = 5;
     // the chest expired without being solved
-    timestamp expired = 6;
+    google.protobuf.Timestamp expired = 6;
   }
   bool selected = 15;
 }
