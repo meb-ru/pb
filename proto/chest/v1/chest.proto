@@ -1,20 +1,24 @@
 syntax = "proto3";
-package chests;
-option go_package = "github.com/meb-ru/pb/chests";
+package chest.v1;
 
 import "google/protobuf/timestamp.proto";
 
-service CipherChests {
+service CipherChestService {
   // Get all chests visible to a user
-  rpc GetChests (GetChestsRequest) returns (GetChestsReply) {}
-  rpc GetChestTrymap (GetChestTrymapRequest) returns (GetChestTrymapReply) {}
-  rpc SubmitGuess (SubmitGuessRequest) returns (SubmitGuessReply) {}
-  rpc SetNotification (SetNotificationRequest) returns (SetNotificationReply) {}
+  rpc ListChests(ListChestsRequest) returns (ListChestsResponse) {}
+  rpc GetTrymap(GetTrymapRequest) returns (GetTrymapResponse) {}
+  rpc SubmitGuess(SubmitGuessRequest) returns (SubmitGuessResponse) {}
+  rpc SetNotification(SetNotificationRequest) returns (SetNotificationResponse) {}
 }
 
-message GetChestsRequest {
+message ListChestsRequest {
   TgUser user = 1;
   ChestId id = 2;
+  TgBot bot = 15;
+}
+
+message TgBot {
+  int64 id = 1;
 }
 
 message TgUser {
@@ -32,11 +36,11 @@ enum ChestType {
   CHEST_TYPE_PROMOTIONAL = 2;
 }
 
-message GetChestsReply {
+message ListChestsResponse {
   repeated Chest chests = 1;
   uint32 selected = 2;
   // key in map cannot be bytes or message type
-  map<sint64,Chest> by_id = 3;
+  map<sint64, Chest> by_id = 3;
   ChestId selected_id = 4;
 }
 
@@ -56,11 +60,12 @@ message Chest {
   bool selected = 15;
 }
 
-message GetChestTrymapRequest {
+message GetTrymapRequest {
   ChestId id = 1;
+  TgBot bot = 15;
 }
 
-message GetChestTrymapReply {
+message GetTrymapResponse {
   // bitmap of attempts made by all users
   // zero length unless it is the current chest
   bytes trymap = 1;
@@ -69,19 +74,20 @@ message GetChestTrymapReply {
 message SubmitGuessRequest {
   ChestId id = 1;
   uint32 guess = 2;
+  TgBot bot = 15;
 }
 
 // Should a conflict be a different state or an error status?
-message SubmitGuessReply {
+message SubmitGuessResponse {
   bool won = 1;
 }
-
 
 message SetNotificationRequest {
   ChestId id = 1;
   bool enable_notificatons = 2;
+  TgBot bot = 15;
 }
-message SetNotificationReply {}
+message SetNotificationResponse {}
 
 // Bad user = NOT_FOUND || PERMISSION_DENIED
 // Not accepted chatbot = FAILED_PRECONDITION
